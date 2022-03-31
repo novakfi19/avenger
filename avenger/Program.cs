@@ -67,10 +67,9 @@ namespace avenger
 
             server.PlayerConnected += broadcast.whenPlayerConnects;
             server.PlayerConnected += world.Spawn;
+            server.PlayerDisconnected += broadcast.whenPlayerDisconnects;
 
             server.Connect(player);
-
-            server.PlayerConnected += broadcast.whenPlayerDisconnects;
 
             server.Disconnect(player);
         }
@@ -80,6 +79,7 @@ namespace avenger
     {
         List<Player> players = new List<Player>();
         public event Action<Player> PlayerConnected;
+        public event Action<Player> PlayerDisconnected;
         public void Connect(Player p)
         {
             players.Add(p);
@@ -87,7 +87,7 @@ namespace avenger
         }
         public void Disconnect(Player p)
         {
-            PlayerConnected?.Invoke(p);
+            PlayerDisconnected?.Invoke(p);
         }
     }
     class Broadcast
